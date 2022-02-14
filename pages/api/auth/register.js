@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   try {
     console.log("entered");
     let userData = await User.findOne({ email: req.body.email });
+    
     if (userData) {
       return res
         .status(400)
@@ -17,6 +18,8 @@ export default async function handler(req, res) {
     const user = await User.create(req.body);
     console.log(user);
 
+    console.log(req.body)
+    
     const data = {
       user: {
         id: user._id,

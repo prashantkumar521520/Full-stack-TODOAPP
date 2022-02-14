@@ -15,10 +15,15 @@ export default async function handler(req, res) {
       // console.log(data);
       const user = await User.findOne({ _id: data.user.id });
       // console.log(user);
-      return res.json(user);
+      return res.json({ user, userAuthenticated: true });
     }
-    return res.status(400).json({ message: "Invalid Authentication Token" });
+    return res
+      .status(400)
+      .json({
+        message: "Invalid Authentication Token",
+        userAuthenticated: false,
+      });
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error, userAuthenticated: false });
   }
 }
