@@ -1,0 +1,12 @@
+fileignoreconfig:
+- filename: yarn.lock
+  checksum: 37984c3de7c7fa1599f84ec6c7b33bb05469f0217b8c9d909ec23a6bee086d4f
+- filename: package-lock.json
+  checksum: 9ab4b0f69ecda9c986fefc9f860c0de2774d0014c437b0d085f01aaf4e551b83
+- filename: pages/api/auth/signin.js
+  checksum: d0eaefdb55cd9f137c9698ccfe5507f361160c9c7d86036e8026a305d046df2b
+- filename: pages/api/auth/getuser.js
+  checksum: b32cc9262d469cf86d7f5c33d00dfcc64803de141f8a2c959b93a8c5c00c2285
+- filename: pages/api/auth/register.js
+  checksum: a402e57d3dee24750b58fb92effa9225e56ee0a15c6048c5dee6fd00079ba5be
+version: ""
