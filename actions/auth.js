@@ -36,8 +36,13 @@ export const removeLocalStorage = (key) => {
   return true
 };
 
+export const getLocalStorage = (key) => {
+  // if (!typeof window === "undefined")
+  return localStorage.getItem(key);
+};
+
 export const checkAuthentication = async () => {
-  const authToken = localStorage.getItem("auth-token");
+  const authToken = getLocalStorage("auth-token");
   const response = await fetch(`${BASE_API_URL}/getuser`, {
     method: "GET",
     headers: {

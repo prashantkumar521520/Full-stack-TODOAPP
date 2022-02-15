@@ -4,17 +4,37 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { checkAuthentication, removeLocalStorage } from "../actions/auth";
+import { getAllTodos } from "../actions/todo";
+import "../styles/Home.module.css";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [todos, setTodos] = useState([]);
+  // const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const LoadTodos = async () => {
+    const allTodos = await getAllTodos();
+
+    if (allTodos.status === 200) {
+      const todoData = await allTodos.json();
+      console.log(todoData.tasks);
+      setTodos(todoData.tasks);
+    } else {
+      alert("Not able to fetch tasks! Error Occurred");
+    }
+  };
 
   useEffect(() => {
     const response = async () => {
       const resjson = await checkAuthentication();
-      console.log(resjson);
+      setUserData(resjson.user);
       if (resjson.userAuthenticated) {
         setIsAuthenticated(true);
+        LoadTodos();
+        //await LoadTodos();
+        // setLoading(false);
       } else {
         router.push("/login");
       }
@@ -27,24 +47,6 @@ export default function Home() {
     setIsAuthenticated(!removeLocalStorage("auth-token"));
     router.push("/login");
   };
-  // useEffect(() => {
-  //   const checkAuthentication = async () => {
-  //     const authToken = localStorage.getItem("auth-token");
-  //     const res = await fetch(`${BASE_API_URL}/getuser`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "auth-token": authToken,
-  //       },
-  //     });
-  //     const resjson = await res.json();
-
-  //     if (resjson.userAuthenticated) {
-  //       setIsAuthenticated(true);
-  //     } else {
-  //       router.push("/login");
-  //     }
-  //   };
 
   return (
     <>
@@ -57,6 +59,8 @@ export default function Home() {
           </Head>
 
           <div>
+            <label>Hey {userData.name.toUpperCase()} !</label>
+
             <button
               className="bg-red-500 px-3 py-1 rounded-sm text-white font-semibold"
               onClick={handleLogout}
@@ -66,8 +70,15 @@ export default function Home() {
           </div>
 
           <main>
-            {/* Todo */}
-            Create a Todo app interface, refer provided screenshots for design.
+            {todos.map((tasks) => {
+              return (
+                <div key={tasks._id}>
+                  <h3>{tasks.task}</h3>
+                  <h3>{tasks.isCompleted}</h3>
+                  <h3>{tasks.date}</h3>
+                </div>
+              );
+            })}
           </main>
         </div>
       ) : (
