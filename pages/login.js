@@ -1,11 +1,14 @@
 import react, { useState } from "react";
 import { login } from "../actions/auth";
+import { useRouter } from "next/router";
+import { setLocalStorage } from "../actions/auth";
 
 export default function Login() {
   const [fields, setFields] = useState({
     email: "",
     password: "",
   });
+  const router = useRouter();
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -15,10 +18,25 @@ export default function Login() {
       password: "",
     });
 
-    login(fields).then((data) => {
-      setLocalStorage("auth-token", data.jwttoken)
-    });
+    const verifyCredentials = async () => {
+      const data = await login(fields);
+      if (data.jwttoken) {
+        setLocalStorage("auth-token", data.jwttoken);
+        router.push("/");
+      } else {
+        alert("alert invalid credentials");
+      }
+    };
 
+    verifyCredentials();
+    // login(fields).then((data) => {
+    //   if (data.jwttoken) {
+    //     setLocalStorage("auth-token", data.jwttoken);
+    //     router.push("/login");
+    //   } else {
+    //     alert("alert invalid credentials");
+    //   }
+    // });
   };
 
   const handleChange = (e) => {

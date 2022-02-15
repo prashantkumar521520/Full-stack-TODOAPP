@@ -28,7 +28,7 @@ export const login = (userData) => {
 
 export const setLocalStorage = (key, value) => {
   // if (!typeof window === "undefined")
-  localStorage.setItem(key, JSON.stringify(value));
+  localStorage.setItem(key, value);
 };
 
 
