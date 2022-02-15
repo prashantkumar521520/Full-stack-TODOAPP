@@ -1,4 +1,6 @@
-const BASE_API_URL = "http://localhost:3000/api/auth";
+import { useEffect, useState } from "react";
+
+export const BASE_API_URL = "http://localhost:3000/api/auth";
 
 export const signup = (userData) => {
   return fetch(`${BASE_API_URL}/register`, {
@@ -25,24 +27,28 @@ export const login = (userData) => {
 };
 
 export const setLocalStorage = (key, value) => {
-  if (!typeof window === "undefined")
-    localStorage.setItem(key, JSON.stringify(value));
+  // if (!typeof window === "undefined")
+  localStorage.setItem(key, JSON.stringify(value));
 };
 
+
 export const isAuth = () => {
-  if (!typeof window === "undefined") {
+  const [authToken, setAuthToken] = useState(undefined);
+
+  useEffect(() => {
     const authToken = localStorage.getItem("auth-token");
+    setAuthToken(authToken);
+  }, []);
 
-    console.log(authToken);
+  console.log(authToken);
 
-    return fetch(`${BASE_API_URL}/getuser`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": authToken,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => data.userAuthenticated);
-  }
+  return fetch(`${BASE_API_URL}/getuser`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token": authToken,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data.userAuthenticated);
 };
