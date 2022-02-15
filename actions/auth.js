@@ -31,6 +31,11 @@ export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, value);
 };
 
+export const removeLocalStorage = (key) => {
+  localStorage.removeItem(key);
+  return true
+};
+
 export const checkAuthentication = async () => {
   const authToken = localStorage.getItem("auth-token");
   const response = await fetch(`${BASE_API_URL}/getuser`, {
@@ -40,7 +45,7 @@ export const checkAuthentication = async () => {
       "auth-token": authToken,
     },
   });
-  const data=await response.json();
+  const data = await response.json();
   return data;
 };
 
