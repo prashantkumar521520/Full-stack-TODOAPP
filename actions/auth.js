@@ -31,24 +31,36 @@ export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, value);
 };
 
-
-export const isAuth = () => {
-  const [authToken, setAuthToken] = useState(undefined);
-
-  useEffect(() => {
-    const authToken = localStorage.getItem("auth-token");
-    setAuthToken(authToken);
-  }, []);
-
-  console.log(authToken);
-
-  return fetch(`${BASE_API_URL}/getuser`, {
+export const checkAuthentication = async () => {
+  const authToken = localStorage.getItem("auth-token");
+  const response = await fetch(`${BASE_API_URL}/getuser`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "auth-token": authToken,
     },
-  })
-    .then((response) => response.json())
-    .then((data) => data.userAuthenticated);
+  });
+  const data=await response.json();
+  return data;
 };
+
+// export const isAuth = () => {
+//   const [authToken, setAuthToken] = useState(undefined);
+
+//   useEffect(() => {
+//     const authToken = localStorage.getItem("auth-token");
+//     setAuthToken(authToken);
+//   }, []);
+
+//   console.log(authToken);
+
+//   return fetch(`${BASE_API_URL}/getuser`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "auth-token": authToken,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => data.userAuthenticated);
+// };

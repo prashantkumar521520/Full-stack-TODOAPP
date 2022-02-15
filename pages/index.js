@@ -5,31 +5,43 @@ import { useRouter } from "next/router";
 import { isAuth } from "../actions/auth";
 import { useState, useEffect } from "react";
 import { BASE_API_URL } from "../actions/auth";
+import { checkAuthentication } from "../actions/auth";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const authToken = localStorage.getItem("auth-token");
-      const res = await fetch(`${BASE_API_URL}/getuser`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": authToken,
-        },
-      });
-      const resjson = await res.json();
-
+    const response = async () => {
+      const resjson = await checkAuthentication();
+      console.log(resjson);
       if (resjson.userAuthenticated) {
         setIsAuthenticated(true);
       } else {
         router.push("/login");
       }
     };
-    checkAuthentication();
+    response();
   }, []);
+
+  // useEffect(() => {
+  //   const checkAuthentication = async () => {
+  //     const authToken = localStorage.getItem("auth-token");
+  //     const res = await fetch(`${BASE_API_URL}/getuser`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "auth-token": authToken,
+  //       },
+  //     });
+  //     const resjson = await res.json();
+
+  //     if (resjson.userAuthenticated) {
+  //       setIsAuthenticated(true);
+  //     } else {
+  //       router.push("/login");
+  //     }
+  //   };
 
   return (
     <>

@@ -1,5 +1,6 @@
 import react, { useState } from "react";
 import { setLocalStorage, signup } from "../actions/auth";
+import { useRouter } from "next/router";
 
 export default function Register() {
   const [fields, setFields] = useState({
@@ -16,9 +17,17 @@ export default function Register() {
       email: "",
       password: "",
     });
-    signup(fields).then((data) => {
-      setLocalStorage("auth-token", data.jwttoken)
-    });
+    const verifyCredentials = async () => {
+      const data = await signup(fields);
+      if (data.jwttoken) {
+        setLocalStorage("auth-token", data.jwttoken);
+        router.push("/");
+      } else {
+        alert("alert invalid credentials");
+      }
+    };
+
+    verifyCredentials();
   };
 
   const handleChange = (e) => {

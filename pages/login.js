@@ -29,14 +29,7 @@ export default function Login() {
     };
 
     verifyCredentials();
-    // login(fields).then((data) => {
-    //   if (data.jwttoken) {
-    //     setLocalStorage("auth-token", data.jwttoken);
-    //     router.push("/login");
-    //   } else {
-    //     alert("alert invalid credentials");
-    //   }
-    // });
+    
   };
 
   const handleChange = (e) => {
