@@ -5,7 +5,7 @@ DbConnect();
 
 export default async function handler(req, res) {
   if (req.method === "PUT") {
-    console.log("in update task");
+    // console.log("in update task");
     try {
       const response = await fetch("http://localhost:3000/api/auth/getuser", {
         method: "GET",
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       const userData = await response.json();
       const task = await Task.findOne({
         _id: req.query["todoId"],
-        user: userData._id,
+        user: userData.user._id,
       });
 
       if (!task) {
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ message: "internal server error" });
     }
   } else if (req.method === "DELETE") {
-    console.log("in delete task");
+    // console.log("in delete task");
     try {
       const response = await fetch("http://localhost:3000/api/auth/getuser", {
         method: "GET",
@@ -48,10 +48,10 @@ export default async function handler(req, res) {
       });
 
       const userData = await response.json();
-      console.log("deleting");
+      // console.log("deleting");
       const task = await Task.deleteOne({
         _id: req.query["todoId"],
-        user: userData._id,
+        user: userData.user._id,
       });
 
       if (task.deletedCount === 0) {

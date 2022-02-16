@@ -9,4 +9,6 @@ fileignoreconfig:
   checksum: b32cc9262d469cf86d7f5c33d00dfcc64803de141f8a2c959b93a8c5c00c2285
 - filename: pages/api/auth/register.js
   checksum: a402e57d3dee24750b58fb92effa9225e56ee0a15c6048c5dee6fd00079ba5be
+- filename: pages/index.js
+  checksum: c39624e0ad47702b226131cb0bab7ee22fbdb8e34c6c9993c0f71b7bc276c30c
 version: ""

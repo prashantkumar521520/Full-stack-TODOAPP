@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleForm = (e) => {
     e.preventDefault();
-    console.log(fields);
+    // console.log(fields);
     setFields({
       email: "",
       password: "",
@@ -44,7 +44,7 @@ export default function Login() {
   useEffect(() => {
     const response = async () => {
       const resjson = await checkAuthentication();
-      console.log(resjson);
+      // console.log(resjson);
       if (resjson.userAuthenticated) {
         router.push("/");
         setIsAuthenticated(true);

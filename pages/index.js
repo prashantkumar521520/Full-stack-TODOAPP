@@ -1,16 +1,19 @@
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
+// import Image from "next/image";
+// import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { checkAuthentication, removeLocalStorage } from "../actions/auth";
 import { getAllTodos } from "../actions/todo";
+import { addTodo } from "../actions/todo";
+import { deleteTodo } from "../actions/todo";
 import "../styles/Home.module.css";
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
   const [todos, setTodos] = useState([]);
+  const [taskName, setTaskName] = useState("");
   // const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -19,7 +22,7 @@ export default function Home() {
 
     if (allTodos.status === 200) {
       const todoData = await allTodos.json();
-      console.log(todoData.tasks);
+      // console.log(todoData.tasks);
       setTodos(todoData.tasks);
     } else {
       alert("Not able to fetch tasks! Error Occurred");
@@ -48,6 +51,32 @@ export default function Home() {
     router.push("/login");
   };
 
+  const HandleAddTask = async () => {
+    const response = await addTodo(taskName);
+    if (response.status === 200) {
+      const resjson = await response.json();
+      // console.log(resjson);
+      alert(resjson.message);
+      LoadTodos();
+    } else {
+      alert("Task not added! Error Occurred");
+    }
+    setTaskName("");
+  };
+
+  const handleId = async (TaskId) => {
+    // console.log(TaskId)
+    const response = await deleteTodo(TaskId);
+    if (response.status === 200) {
+      const resjson = await response.json();
+      // console.log(resjson);
+      alert(resjson.message);
+      LoadTodos();
+    } else {
+      alert("Task not deleted! Error Occurred");
+    }
+  };
+
   return (
     <>
       {isAuthenticated ? (
@@ -70,15 +99,44 @@ export default function Home() {
           </div>
 
           <main>
-            {todos.map((tasks) => {
-              return (
-                <div key={tasks._id}>
-                  <h3>{tasks.task}</h3>
-                  <h3>{tasks.isCompleted}</h3>
-                  <h3>{tasks.date}</h3>
-                </div>
-              );
-            })}
+            <div>
+              <input
+                className="px-3 py-1 m-2 border border-black"
+                type="text"
+                value={taskName}
+                onChange={(event) => {
+                  setTaskName(event.target.value);
+                }}
+                placeholder="Enter Task To Add"
+              />
+
+              <button
+                className="bg-blue-500 px-3 py-1 rounded-sm text-white font-semibold"
+                onClick={HandleAddTask}
+              >
+                Add Task
+              </button>
+            </div>
+
+            <div>
+              {todos.map((tasks) => {
+                return (
+                  <div key={tasks._id}>
+                    <h3>{tasks.task}</h3>
+                    <h3>{tasks.isCompleted}</h3>
+                    <h3>{tasks.date}</h3>
+                    <button
+                      className="bg-orange-500 px-3 py-1 rounded-lg text-white font-semibold"
+                      onClick={() => {
+                        handleId(tasks._id);
+                      }}
+                    >
+                      Delete Task
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </main>
         </div>
       ) : (

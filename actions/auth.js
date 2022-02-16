@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export const BASE_API_URL = "http://localhost:3000/api/auth";
 
 export const signup = (userData) => {

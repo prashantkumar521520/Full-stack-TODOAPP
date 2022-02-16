@@ -6,7 +6,7 @@ DbConnect();
 const jwt_secret = "HElloPrashatWelcome#@";
 export default async function handler(req, res) {
   try {
-    console.log("entered");
+    // console.log("entered");
     let userData = await User.findOne({ email: req.body.email });
     
     if (userData) {
@@ -16,9 +16,9 @@ export default async function handler(req, res) {
     }
 
     const user = await User.create(req.body);
-    console.log(user);
+    // console.log(user);
 
-    console.log(req.body)
+    // console.log(req.body)
     
     const data = {
       user: {
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       },
     };
     const jwttoken = jwt.sign(data, jwt_secret);
-    console.log(jwttoken);
+    // console.log(jwttoken);
 
     return res
       .status(200)

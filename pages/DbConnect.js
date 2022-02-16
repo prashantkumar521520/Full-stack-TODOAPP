@@ -7,7 +7,7 @@ const connection = {};
 async function DbConnect() {
 
   if (connection.isConnected) {
-    console.log("mongo connected");
+    // console.log("mongo connected");
     return;
   }
   // const db = await mongoose.connect(mongodb_uri,()=>{console.log("connected")})
@@ -16,8 +16,8 @@ async function DbConnect() {
     useUnifiedTopology: true,
   });
   connection.isConnected = db.connections[0].readyState;
-  console.log(connection.isConnected);
-  console.log("connected to mongo");
+  // console.log(connection.isConnected);
+  // console.log("connected to mongo");
 }
 
 // async function DbConnect() {

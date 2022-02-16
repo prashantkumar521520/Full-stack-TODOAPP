@@ -7,7 +7,7 @@ const jwt_secret = "HElloPrashatWelcome#@";
 export default async function handler(req, res) {
   // console.log(req.headers);
   try {
-    console.log("in get user function");
+    // console.log("in get user function");
     const authtoken = req.headers["auth-token"];
     // console.log(authtoken);
     if (authtoken) {

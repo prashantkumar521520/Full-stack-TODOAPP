@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     if (!userData) {
       return res.status(400).json({ error: "Invalid credentials" });
     }
-    console.log(userData);
+    // console.log(userData);
     if (userData.password === password.toString()) {
       const data = {
         user: {
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         },
       };
       const jwttoken = jwt.sign(data, jwt_secret);
-      console.log(jwttoken);
+      // console.log(jwttoken);
 
       return res
         .status(200)
