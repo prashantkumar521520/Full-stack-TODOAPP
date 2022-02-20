@@ -37,3 +37,16 @@ export const deleteTodo = async (TaskId) => {
   });
   return response;
 };
+
+export const updateTodo = async (task) => {
+  // console.log(task);
+  const response = await fetch(`${BASE_API_URL}/todos/${task._id}`, {
+    method: "PUT",
+    body: JSON.stringify({ task: task }),
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token": getLocalStorage("auth-token"),
+    },
+  });
+  return response;
+};

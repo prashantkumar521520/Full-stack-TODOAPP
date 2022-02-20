@@ -26,8 +26,8 @@ export default async function handler(req, res) {
       }
 
       const updatedTask = await task.updateOne({
-        task: req.body.task,
-        isCompleted: req.body.isCompleted,
+        task: req.body.task.task,
+        isCompleted: req.body.task.isCompleted,
       });
 
       return res
